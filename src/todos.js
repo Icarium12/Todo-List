@@ -16,8 +16,13 @@ class Todos {
         this.checklist.push(task);
     }
 
-    removeTask() {
-
+    removeTask(task) {
+        this.checklist.forEach(item => {
+            if (item.id === task.id) {
+                const index = this.checklist.indexOf(item);
+                this.checklist.splice(index, 1);
+            }
+        })
     }
 }
 

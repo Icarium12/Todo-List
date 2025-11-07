@@ -1,15 +1,21 @@
 import { Todos, Task } from "./todos";
-import { addToList } from "./list";
+import { List } from "./list";
 
 (function() {
-    const list = [];
+    const todoList = new List();
     const todo1 = new Todos("Clean house", "Do the weekend chores", "low");
     const todo2 = new Todos("Study for test", "Study for the upcoming physics test", "High");
-    const task = new Task("Select topics to study");
+    const todo3 = new Todos("Fix code", "Fix issue in game code", "medium");
+    const task = Task("Select topics to study");
+    const task2 = Task("Study each topic");
     todo2.addTask(task);
-    addToList(list, todo1);
-    addToList(list, todo2);
-    console.log(list);
+    todo2.addTask(task2);
+    todo2.removeTask(task);
+    todoList.addToList(todo1);
+    todoList.addToList(todo2);
+    todoList.addToList(todo3);
+    todoList.removeFromList(todo1);
+    console.log(todoList.array);
     console.log(todo2.checklist);
 
 //    todo1.changePriority();
