@@ -1,11 +1,16 @@
+import { format, getDate } from "date-fns";
+
+format(new Date(), "MM/dd/yyyy");
+
 class Todos {
-    constructor(title, description, priority, dueDate) {
+    constructor(title, description, priority) {
         this.title = title;
         this.description = description;
         this.priority = priority;
-        this.dueDate = dueDate;
+        this.dueDate = new Date();
         this.id = crypto.randomUUID();
-        this.checklist = [];
+        this.checkList = [];
+        this.creationDate = new Date();
     }
 
     changePriority() {
@@ -13,29 +18,23 @@ class Todos {
     }
 
     addTask(task) {
-        this.checklist.push(task);
+        this.checkList.push(task);
     }
 
     removeTask(task) {
-        this.checklist.forEach(item => {
+        this.checkList.forEach(item => {
             if (item.id === task.id) {
                 const index = this.checklist.indexOf(item);
-                this.checklist.splice(index, 1);
+                this.checkList.splice(index, 1);
             }
         })
     }
-}
-
-// function Task(description) {
-//     this.description = description;
-//     this.id = crypto.randomUUID
-// }
-
-const Task = function(description) {
-    const task = description;
-    const id = crypto.randomUUID();
-    return {task, id}
+    setComplete() {
+        this.staus = "Complete"
+    }
 }
 
 
-export {Todos, Task}
+
+
+export { Todos }
