@@ -1,11 +1,42 @@
 import { Todos } from "./todos.js";
 import { List } from "./list.js";
-import { displayProject } from "./dom.js";
+import { displayProject, createProject, renderPage } from "./dom.js";
 import { Task } from "./task.js";
 
-(function() {
+const Page = (function() {
     const body = document.body;
     const todoCont = document.createElement('div');
+    const todoInfo = document.createElement("div");
+    const dialog = document.createElement('dialog');
+    const button = document.createElement('button');
+    button.textContent = "Add Project";
+    button.addEventListener('click', () => {
+        dialog.showModal();
+    })
+
+    const addProj = createProject(body, dialog);
+    body.appendChild(button);
+
+    addProj.button.addEventListener('click', (e) => {
+        if (addProj.form.checkValidity()) {
+            e.preventDefault();
+            const todo = new Todos (
+            addProj.titleInput.value,
+            addProj.descriptionIn.value,
+            addProj.priorityVal.value
+            )
+            todoList.addToList(todo);
+            todoCont.replaceChildren();
+            todoList.array.forEach(todo => {
+            renderPage();
+        });   
+        }
+
+        console.log(todoList);
+    })
+
+
+    
 
 
 
@@ -32,4 +63,8 @@ import { Task } from "./task.js";
 
 //    todo1.changePriority();
 //     console.log(todo1.priority);
+
+    return {todoInfo, todoList, todoCont};
 })();
+
+export {Page}
