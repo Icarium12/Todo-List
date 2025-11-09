@@ -29,6 +29,7 @@ const Page = (function() {
             todoCont.replaceChildren();
             todoList.array.forEach(todo => {
             renderPage();
+            dialog.close()
         });   
         }
 
