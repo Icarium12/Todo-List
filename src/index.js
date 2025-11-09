@@ -1,6 +1,6 @@
 import { Todos } from "./todos.js";
 import { List } from "./list.js";
-import { displayProject, createProject, renderPage } from "./dom.js";
+import { displayProject, createProject, renderPage, createTask } from "./dom.js";
 import { Task } from "./task.js";
 
 const Page = (function() {
@@ -8,6 +8,7 @@ const Page = (function() {
     const todoCont = document.createElement('div');
     const todoInfo = document.createElement("div");
     const dialog = document.createElement('dialog');
+    const taskDialog = document.createElement('dialog');
     const button = document.createElement('button');
     button.textContent = "Add Project";
     button.addEventListener('click', () => {
@@ -34,11 +35,17 @@ const Page = (function() {
         }
 
         console.log(todoList);
-    })
+    });
+    body.appendChild(taskDialog);
 
 
     
 
+
+
+
+    
+    
 
 
     const todoList = new List();
@@ -65,7 +72,7 @@ const Page = (function() {
 //    todo1.changePriority();
 //     console.log(todo1.priority);
 
-    return {todoInfo, todoList, todoCont};
+    return {todoInfo, todoList, todoCont, taskDialog};
 })();
 
 export {Page}

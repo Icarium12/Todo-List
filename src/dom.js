@@ -1,4 +1,5 @@
 import { Page } from ".";
+import { Task } from "./task";
 
 function displayProject (todo, cont) {
     const body = document.body;
@@ -101,6 +102,16 @@ function displayTodo(todo, cont) {
     const checklist = displayCheckL(todo.checkList);
     cont.appendChild(checklist);
 
+    const taskButton = document.createElement("button");
+    taskButton.className = "task-button";
+    taskButton.textContent = "Add Checklist";
+    taskButton.addEventListener("click", () => {
+        const task = createTask();
+        Page.taskDialog.showModal();
+        addTask(task.form, task.taskInput, task.submit, todo);
+    })
+    cont.appendChild(taskButton);
+
     const button = document.createElement('button');
     button.textContent = "Delete Todo";
     button.addEventListener("click", () => {
@@ -138,4 +149,40 @@ function displayCheckL(array) {
     return list;
 }
 
-export { displayProject, createProject, renderPage }
+function createTask() {
+    Page.taskDialog.setAttribute("closedby", "any");
+    const form = document.createElement("form");
+    const label  = document.createElement("label");
+    label.setAttribute("for", "task");
+    label.textContent = "Add task to checklist";
+    form.appendChild(label);
+
+    const taskInput = document.createElement("input");
+    taskInput.setAttribute("name", "task");
+    taskInput.setAttribute("type", "textarea");
+    taskInput.setAttribute("required", "");
+    form.appendChild(taskInput);
+
+    const submit = document.createElement("button");
+    submit.textContent = "Submit";
+    form.appendChild(submit);
+
+    Page.taskDialog.appendChild(form);
+
+    return {form, taskInput, submit}
+}
+
+function addTask(form, description, button, todo) {
+    button.addEventListener("click", (e) => {
+        if (form.checkValidity()) {
+            e.preventDefault();
+            const task = new Task(description.value);
+            todo.addTask(task);
+            displayTodo(todo, Page.todoInfo);
+            Page.taskDialog.replaceChildren();
+            Page.taskDialog.close();
+        }
+    })
+}
+
+export { displayProject, createProject, renderPage, createTask }
