@@ -39,15 +39,6 @@ const Page = (function() {
     body.appendChild(taskDialog);
 
 
-    
-
-
-
-
-    
-    
-
-
     const todoList = new List();
     const todo1 = new Todos("Clean house", "Do the weekend chores", "low");
     const todo2 = new Todos("Study for test", "Study for the upcoming physics test", "High");

@@ -24,8 +24,9 @@ class Todos {
     removeTask(task) {
         this.checkList.forEach(item => {
             if (item.id === task.id) {
-                const index = this.checklist.indexOf(item);
+                const index = this.checkList.indexOf(item);
                 this.checkList.splice(index, 1);
+                console.log("ran");
             }
         })
     }

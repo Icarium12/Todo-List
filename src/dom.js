@@ -1,5 +1,6 @@
 import { Page } from ".";
 import { Task } from "./task";
+import { Todos } from "./todos";
 
 function displayProject (todo, cont) {
     const body = document.body;
@@ -102,6 +103,7 @@ function displayTodo(todo, cont) {
     const checklist = displayCheckL(todo.checkList);
     cont.appendChild(checklist);
 
+    
     const taskButton = document.createElement("button");
     taskButton.className = "task-button";
     taskButton.textContent = "Add Checklist";
@@ -142,11 +144,25 @@ function displayCheckL(array) {
         input.setAttribute("type", "checkbox");
         input.setAttribute("id", "task");
         label.textContent = item.description;
+        const delTask = document.createElement("button");
+        delTask.textContent = "remove task";
+        delTask.addEventListener("click", () => {
+            deleteTask(item);
+            delTask.style.backgroundColor = "grey";
+            task.style.color = "grey";
+        })
         task.appendChild(input);
         task.appendChild(label);
+        task.appendChild(delTask);
         list.appendChild(task);
     });
     return list;
+}
+
+function deleteTask(task) {
+    Page.todoList.array.forEach(item => {
+        item.removeTask(task);
+    });
 }
 
 function createTask() {
