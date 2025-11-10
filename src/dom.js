@@ -1,6 +1,6 @@
 import { Page } from ".";
 import { Task } from "./task";
-import { Todos } from "./todos";
+import { editDescription, editTitle } from "./edit";
 
 function displayProject (todo, cont) {
     const body = document.body;
@@ -10,8 +10,17 @@ function displayProject (todo, cont) {
     title.addEventListener('click', () => {
         displayTodo(todo, Page.todoInfo);
     })
+    const edit = document.createElement("button");
+    edit.textContent = "edit";
+    const editDialog = editTitle(todo, title);
+    body.appendChild(editDialog);
+    edit.addEventListener("click", () => {
+        editDialog.showModal();
+    });
 
+    
     cont.appendChild(title);
+    cont.appendChild(edit);
     body.appendChild(cont);
 }
 
@@ -81,7 +90,7 @@ function createProject(body, dialog) {
 
     dialog.appendChild(form);
     body.appendChild(dialog);
-    return {button, titleInput, descriptionIn, priorityVal, form}
+    return {button, titleInput, descriptionIn, priorityVal, form, dueDate, dialog}
 }
 
 function displayTodo(todo, cont) {
@@ -89,12 +98,27 @@ function displayTodo(todo, cont) {
     cont.replaceChildren();
 
     const title = document.createElement('h2');
+    title.className = "mini-title";
     title.textContent = todo.title;
     cont.appendChild(title);
+
+    const dueDate = document.createElement("div");
+    dueDate.textContent = todo.dueDate;
+    cont.appendChild(dueDate);
 
     const description = document.createElement('p');
     description.textContent = todo.description;
     cont.appendChild(description);
+
+    const editDescriptionDialog = editDescription(todo, description);
+    body.appendChild(editDescriptionDialog);
+
+    const editDescriptionButton = document.createElement("button");
+    editDescriptionButton.textContent = "Edit";
+    editDescriptionButton.addEventListener("click", () => {
+        editDescriptionDialog.showModal();
+    })
+    cont.appendChild(editDescriptionButton);
 
     const priority = document.createElement('div');
     priority.textContent = todo.priority;
@@ -122,6 +146,14 @@ function displayTodo(todo, cont) {
         console.log(Page.todoList);
     })
     cont.appendChild(button);
+
+    const todoStatus = document.createElement("button");
+    todoStatus.textContent = todo.completeStatus;
+    todoStatus.addEventListener("click", () => {
+        todo.setComplete();
+        todoStatus.textContent = todo.completeStatus
+    })
+    cont.appendChild(todoStatus);
 
     body.appendChild(cont);
 }
