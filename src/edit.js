@@ -59,4 +59,77 @@ function editTitle(todo, element) {
     return dialog
 }
 
-export {editDescription, editTitle}
+function editPriotity(todo, element) {
+    const dialog = document.createElement("dialog");
+    dialog.setAttribute("closedby", "any");
+    const form = document.createElement("form")
+    const label = document.createElement('label');
+    label.setAttribute("for", "new-edit");
+    label.textContent = "Edit Title:";
+    form.appendChild(label);
+
+    const priorityVal = document.createElement("select");
+    priorityVal.setAttribute("name", "priority")
+    const priority1 = document.createElement("option");
+    priority1.setAttribute("value", "Low");
+    priority1.textContent = "Low";
+    priorityVal.appendChild(priority1);
+
+    const priority2 = document.createElement("option");
+    priority2.setAttribute("value", "Medium");
+    priority2.textContent = "Medium";
+    priorityVal.appendChild(priority2);
+
+    const priority3 = document.createElement("option");
+    priority3.setAttribute("value", "High");
+    priority3.textContent = "High";
+    priorityVal.appendChild(priority3);
+    form.appendChild(priorityVal);
+
+    const submit = document.createElement("button");
+    submit.textContent = "Save";
+    submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        if(form.checkValidity()) {
+            dialog.showModal();
+            todo.changePriority(priorityVal.value);
+            element.textContent = todo.priority;
+            dialog.close();
+        }
+    })
+    form.appendChild(submit);
+    dialog.appendChild(form);
+    return dialog
+}
+
+function editTask(task, element) {
+    const dialog = document.createElement("dialog");
+    dialog.setAttribute("closedby", "any");
+    const form = document.createElement("form")
+    const label = document.createElement('label');
+    label.setAttribute("for", "new-edit");
+    label.textContent = "Edit Task:";
+    form.appendChild(label);
+
+    const newEdit = document.createElement("textarea");
+    newEdit.setAttribute("name", "new-edit");
+    newEdit.setAttribute("required", "");
+    form.appendChild(newEdit);
+
+    const submit = document.createElement("button");
+    submit.textContent = "Save";
+    submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        if(form.checkValidity()) {
+            dialog.showModal();
+            task.changeTask(newEdit.value);;
+            element.textContent = task.description;
+            dialog.close();
+        }
+    })
+    form.appendChild(submit);
+    dialog.appendChild(form);
+    return dialog
+}
+
+export {editDescription, editTitle, editPriotity, editTask}

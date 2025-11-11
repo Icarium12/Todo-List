@@ -14,8 +14,8 @@ class Todos {
         this.completeStatus = "Set Complete";
     }
 
-    changePriority() {
-        this.priority = prompt("Select Priority (High, Medium, Low)");
+    changePriority(value) {
+        this.priority = value;
     }
 
     addTask(task) {

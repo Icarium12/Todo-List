@@ -1,6 +1,6 @@
 import { Page } from ".";
 import { Task } from "./task";
-import { editDescription, editTitle } from "./edit";
+import { editDescription, editTitle, editPriotity, editTask } from "./edit";
 
 function displayProject (todo, cont) {
     const body = document.body;
@@ -124,10 +124,21 @@ function displayTodo(todo, cont) {
     priority.textContent = todo.priority;
     cont.appendChild(priority);
 
+    const priorityEdit = editPriotity(todo, priority);
+    body.appendChild(priorityEdit);
+
+    const priorityEditButton = document.createElement("button");
+    priorityEditButton.textContent = "Edit";
+    priorityEditButton.addEventListener("click", () => {
+        priorityEdit.showModal();
+    });
+
+    cont.appendChild(priorityEditButton);
+
     const checklist = displayCheckL(todo.checkList);
     cont.appendChild(checklist);
 
-    
+    body.appendChild(Page.taskDialog);
     const taskButton = document.createElement("button");
     taskButton.className = "task-button";
     taskButton.textContent = "Add Checklist";
@@ -176,8 +187,18 @@ function displayCheckL(array) {
         input.setAttribute("type", "checkbox");
         input.setAttribute("id", "task");
         label.textContent = item.description;
+
+        const editTaskDialog = editTask(item, label);
+        document.body.appendChild(editTaskDialog);
+
+        const editTaskButton = document.createElement("button");
+        editTaskButton.textContent = "Edit";
+        editTaskButton.addEventListener("click", () => {
+            editTaskDialog.showModal();
+        })
+
         const delTask = document.createElement("button");
-        delTask.textContent = "remove task";
+        delTask.textContent = "Remove";
         delTask.addEventListener("click", () => {
             deleteTask(item);
             delTask.style.backgroundColor = "grey";
@@ -185,6 +206,7 @@ function displayCheckL(array) {
         })
         task.appendChild(input);
         task.appendChild(label);
+        task.appendChild(editTaskButton);
         task.appendChild(delTask);
         list.appendChild(task);
     });
