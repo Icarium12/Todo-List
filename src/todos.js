@@ -49,7 +49,16 @@ class Todos {
     }
 
     formatDueDate() {
+        const array = this.dueDate.split("-");
+        if (array.length === 3) {
+            const date = new Date(this.dueDate);
+            const formattedDate = format(date, 'MMMM dd, yyyy');
+            this.dueDate = formattedDate;
+        }
+    }
 
+    changeDueDate(value) {
+        this.dueDate = value
     }
 }
 

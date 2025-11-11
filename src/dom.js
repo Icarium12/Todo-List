@@ -1,6 +1,6 @@
 import { Page } from ".";
 import { Task } from "./task";
-import { editDescription, editTitle, editPriotity, editTask } from "./edit";
+import { editDescription, editTitle, editPriotity, editTask, editDueDate } from "./edit";
 
 function displayProject (todo, cont) {
     const body = document.body;
@@ -103,8 +103,19 @@ function displayTodo(todo, cont) {
     cont.appendChild(title);
 
     const dueDate = document.createElement("div");
-    dueDate.textContent = todo.dueDate;
+    todo.formatDueDate();
+    dueDate.textContent = `Due Date: ${todo.dueDate}`;
     cont.appendChild(dueDate);
+
+    const dueDateEdit = editDueDate(todo, dueDate);
+    body.appendChild (dueDateEdit);
+
+    const dueDateEditButton = document.createElement("button");
+    dueDateEditButton.textContent = "Edit"
+    dueDateEditButton.addEventListener("click", () => {
+        dueDateEdit.showModal();
+    })
+    cont.appendChild(dueDateEditButton);
 
     const description = document.createElement('p');
     description.textContent = todo.description;
@@ -121,7 +132,7 @@ function displayTodo(todo, cont) {
     cont.appendChild(editDescriptionButton);
 
     const priority = document.createElement('div');
-    priority.textContent = todo.priority;
+    priority.textContent = `Importance: ${todo.priority}`;
     cont.appendChild(priority);
 
     const priorityEdit = editPriotity(todo, priority);

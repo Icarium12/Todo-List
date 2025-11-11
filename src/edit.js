@@ -65,7 +65,7 @@ function editPriotity(todo, element) {
     const form = document.createElement("form")
     const label = document.createElement('label');
     label.setAttribute("for", "new-edit");
-    label.textContent = "Edit Title:";
+    label.textContent = "Edit Importance:";
     form.appendChild(label);
 
     const priorityVal = document.createElement("select");
@@ -93,7 +93,7 @@ function editPriotity(todo, element) {
         if(form.checkValidity()) {
             dialog.showModal();
             todo.changePriority(priorityVal.value);
-            element.textContent = todo.priority;
+            element.textContent = `Importance: ${todo.priority}`;
             dialog.close();
         }
     })
@@ -132,4 +132,36 @@ function editTask(task, element) {
     return dialog
 }
 
-export {editDescription, editTitle, editPriotity, editTask}
+function editDueDate(todo, element) {
+    const dialog = document.createElement("dialog");
+    dialog.setAttribute("closedby", "any");
+    const form = document.createElement("form");
+
+    const date = document.createElement("label");
+    date.setAttribute("for", "duedate");
+    date.textContent = "Edit Due Date";
+    form.appendChild(date)
+
+    const newDate = document.createElement("input");
+    newDate.setAttribute("name", "duedate");
+    newDate.setAttribute("type", "date");
+    form.appendChild(newDate);
+
+    const submit = document.createElement("button");
+    submit.textContent = "Save";
+    submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        if(form.checkValidity()) {
+            dialog.showModal();
+            todo.changeDueDate(newDate.value);
+            todo.formatDueDate();
+            element.textContent = `Due Date: ${todo.dueDate}`;
+            dialog.close();
+        }
+    })
+    form.appendChild(submit);
+    dialog.appendChild(form);
+    return dialog;
+}
+
+export {editDescription, editTitle, editPriotity, editTask, editDueDate}
