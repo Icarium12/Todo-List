@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-list {
+    text-align: center;
+}
+
+.add-proj-container {
+    text-align: center;
+}
+
+.add-project {
+    width: 5rem;
+}
+
+.project-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 10rem;
+}
+
+.title-edit {
+    height: 2rem;
+    width: 3rem;
+    border-radius: 10px;
+    border: none;
+}
+
+.main-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

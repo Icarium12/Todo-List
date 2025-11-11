@@ -4,13 +4,16 @@ import { editDescription, editTitle, editPriotity, editTask, editDueDate } from 
 
 function displayProject (todo, cont) {
     const body = document.body;
+    const container = document.createElement("div");
+    container.className = "project-display"
 
-    const title = document.createElement("h1");
+    const title = document.createElement("h3");
     title.textContent = todo.title;
     title.addEventListener('click', () => {
         displayTodo(todo, Page.todoInfo);
     })
     const edit = document.createElement("button");
+    edit.className = "title-edit"
     edit.textContent = "edit";
     const editDialog = editTitle(todo, title);
     body.appendChild(editDialog);
@@ -19,9 +22,9 @@ function displayProject (todo, cont) {
     });
 
     
-    cont.appendChild(title);
-    cont.appendChild(edit);
-    body.appendChild(cont);
+    container.appendChild(title);
+    container.appendChild(edit);
+    cont.appendChild(container);
 }
 
 function createProject(body, dialog) {
@@ -177,7 +180,7 @@ function displayTodo(todo, cont) {
     })
     cont.appendChild(todoStatus);
 
-    body.appendChild(cont);
+    Page.display.appendChild(cont);
 }
 
 function renderPage() {
