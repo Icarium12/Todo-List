@@ -33,7 +33,7 @@ class Todos {
     }
     setComplete() {
         if (this.completeStatus === "Set Complete") {
-            this.completeStatus = "Complete";
+            this.completeStatus = "Completed";
         }
         else {
             this.completeStatus = "Set Complete";

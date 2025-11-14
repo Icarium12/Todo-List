@@ -105,57 +105,66 @@ function displayTodo(todo, cont) {
     title.textContent = todo.title;
     cont.appendChild(title);
 
+    const dueDateCont = document.createElement("div");
+    dueDateCont.className = "due-date";
     const dueDate = document.createElement("div");
     todo.formatDueDate();
     dueDate.textContent = `Due Date: ${todo.dueDate}`;
-    cont.appendChild(dueDate);
+    dueDateCont.appendChild(dueDate);
 
     const dueDateEdit = editDueDate(todo, dueDate);
     body.appendChild (dueDateEdit);
 
     const dueDateEditButton = document.createElement("button");
-    dueDateEditButton.textContent = "Edit"
+    dueDateEditButton.textContent = "Edit";
+    dueDateEditButton.className = "info-edit";
     dueDateEditButton.addEventListener("click", () => {
         dueDateEdit.showModal();
-    })
-    cont.appendChild(dueDateEditButton);
+    });
+    dueDateCont.appendChild(dueDateEditButton);
+    cont.appendChild(dueDateCont);
 
+    const descriptionCont = document.createElement("div");
+    descriptionCont.className = "description";
     const description = document.createElement('p');
     description.textContent = todo.description;
-    cont.appendChild(description);
+    descriptionCont.appendChild(description);
 
     const editDescriptionDialog = editDescription(todo, description);
     body.appendChild(editDescriptionDialog);
 
     const editDescriptionButton = document.createElement("button");
     editDescriptionButton.textContent = "Edit";
+    editDescriptionButton.className = "info-edit";
     editDescriptionButton.addEventListener("click", () => {
         editDescriptionDialog.showModal();
     })
-    cont.appendChild(editDescriptionButton);
+    descriptionCont.appendChild(editDescriptionButton);
+    cont.appendChild(descriptionCont);
 
+    const priorityCont = document.createElement("div");
+    priorityCont.className = "priority";
     const priority = document.createElement('div');
     priority.textContent = `Importance: ${todo.priority}`;
-    cont.appendChild(priority);
+    priorityCont.appendChild(priority);
 
     const priorityEdit = editPriotity(todo, priority);
     body.appendChild(priorityEdit);
 
     const priorityEditButton = document.createElement("button");
     priorityEditButton.textContent = "Edit";
+    priorityEditButton.className = "info-edit";
     priorityEditButton.addEventListener("click", () => {
         priorityEdit.showModal();
     });
-
-    cont.appendChild(priorityEditButton);
-
-    const checklist = displayCheckL(todo.checkList);
-    cont.appendChild(checklist);
+    priorityCont.appendChild(priorityEditButton);
+    cont.appendChild(priorityCont);
 
     body.appendChild(Page.taskDialog);
     const taskButton = document.createElement("button");
     taskButton.className = "task-button";
     taskButton.textContent = "Add Checklist";
+    taskButton.className = "add-checklist";
     taskButton.addEventListener("click", () => {
         const task = createTask();
         Page.taskDialog.showModal();
@@ -163,22 +172,30 @@ function displayTodo(todo, cont) {
     })
     cont.appendChild(taskButton);
 
+    const checklist = displayCheckL(todo.checkList);
+    cont.appendChild(checklist);
+
+    const finishCont = document.createElement("div");
+    finishCont.className = "finish-todo";
     const button = document.createElement('button');
     button.textContent = "Delete Todo";
+    button.className = "delete-todo";
     button.addEventListener("click", () => {
         Page.todoList.removeFromList(todo);
         renderPage();
         console.log(Page.todoList);
     })
-    cont.appendChild(button);
+    finishCont.appendChild(button);
 
     const todoStatus = document.createElement("button");
     todoStatus.textContent = todo.completeStatus;
+    todoStatus.className = "todo-status";
     todoStatus.addEventListener("click", () => {
         todo.setComplete();
         todoStatus.textContent = todo.completeStatus
     })
-    cont.appendChild(todoStatus);
+    finishCont.appendChild(todoStatus);
+    cont.appendChild(finishCont);
 
     Page.display.appendChild(cont);
 }
@@ -195,8 +212,12 @@ function displayCheckL(array) {
     const list = document.createElement('ol');
     array.forEach(item => {
         const task = document.createElement("li");
+
+        const checkboxCont = document.createElement("div");
         const label = document.createElement("label");
         label.setAttribute("for", "task")
+        const taskCont = document.createElement("div");
+        taskCont.className = "task-cont";
         const input = document.createElement("input");
         input.setAttribute("type", "checkbox");
         input.setAttribute("id", "task");
@@ -205,23 +226,30 @@ function displayCheckL(array) {
         const editTaskDialog = editTask(item, label);
         document.body.appendChild(editTaskDialog);
 
+        const buttonContainer = document.createElement("div");
+        buttonContainer.className = "button-cont";
         const editTaskButton = document.createElement("button");
         editTaskButton.textContent = "Edit";
+        editTaskButton.className = "task-edit";
         editTaskButton.addEventListener("click", () => {
             editTaskDialog.showModal();
         })
+        buttonContainer.appendChild(editTaskButton);
 
         const delTask = document.createElement("button");
         delTask.textContent = "Remove";
+        delTask.className = "remove";
         delTask.addEventListener("click", () => {
             deleteTask(item);
-            delTask.style.backgroundColor = "grey";
             task.style.color = "grey";
         })
-        task.appendChild(input);
-        task.appendChild(label);
-        task.appendChild(editTaskButton);
-        task.appendChild(delTask);
+        buttonContainer.appendChild(delTask);
+
+        checkboxCont.appendChild(input);
+        checkboxCont.appendChild(label);
+        taskCont.appendChild(checkboxCont);
+        taskCont.appendChild(buttonContainer);
+        task.appendChild(taskCont);
         list.appendChild(task);
     });
     return list;

@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .todo-list {
@@ -19,10 +20,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 10rem;
+    width: fit-content;
+    gap: 2rem;
 }
 
-.title-edit {
+.title-edit, .info-edit, .task-edit {
     height: 2rem;
     width: 3rem;
     border-radius: 10px;
@@ -31,5 +33,90 @@ body {
 
 .main-display {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 30rem 1fr;
+    place-items: center;
+}
+.due-date {
+    margin-top: -1rem;
+}
+
+.description {
+    margin-top: 1rem;
+}
+
+.due-date, .description, .priority {
+    display: flex;
+    justify-content: space-between;
+}
+
+.finish-todo {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 5rem;
+}
+
+.delete-todo {
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    height: 2rem;
+    font-weight: 900;
+    border: none;
+}
+
+.delete-todo:hover {
+    background-color: darkred;
+}
+
+.todo-status {
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    font-weight: 900;
+    border: none;
+}
+
+.todo-status:hover {
+    background-color: darkblue;
+}
+
+.add-checklist {
+    margin-top: 1rem;
+    background-color: green;
+    color: white;
+    height: 2rem;
+    font-weight: 900;
+    border-radius: 10px;
+    border: none;
+}
+
+.add-checklist:hover {
+    background-color: darkgreen;
+}
+
+.task-cont {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 5rem;
+}
+
+.button-cont {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.remove {
+    background-color: red;
+    color: white;
+    font-weight: 900;
+    border-radius: 10px;
+    border: none;
+}
+
+.remove:hover {
+    background-color: darkred;
 }
