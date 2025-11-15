@@ -24,11 +24,14 @@ function displayProject (todo, cont) {
     
     container.appendChild(title);
     container.appendChild(edit);
+
     cont.appendChild(container);
+    console.log("I ran");
 }
 
-function createProject(body, dialog) {
-    dialog.setAttribute("closedby", "any");
+function createProject() {
+    const dialogT = document.createElement("dialog");
+    dialogT.setAttribute("closedby", "any");
 
     const form = document.createElement('form');
     const title = document.createElement('label');
@@ -47,14 +50,13 @@ function createProject(body, dialog) {
     description.textContent = "Project Description:"
     form.appendChild(description);
 
-    const descriptionIn = document.createElement('input');
-    descriptionIn.setAttribute("type", "textarea");
+    const descriptionIn = document.createElement('textarea');
     descriptionIn.setAttribute("name", "description");
     form.appendChild(descriptionIn);
 
     const priority = document.createElement("label");
     priority.setAttribute("for", "priority");
-    priority.textContent = "Priorty";
+    priority.textContent = "Priorty:";
     form.appendChild(priority);
 
     const priorityVal = document.createElement("select");
@@ -77,7 +79,7 @@ function createProject(body, dialog) {
 
     const date = document.createElement("label");
     date.setAttribute("for", "duedate");
-    date.textContent = "Set due date";
+    date.textContent = "Set due date:";
     form.appendChild(date);
     
     const dueDate = document.createElement("input");
@@ -91,9 +93,8 @@ function createProject(body, dialog) {
     form.appendChild(button);
 
 
-    dialog.appendChild(form);
-    body.appendChild(dialog);
-    return {button, titleInput, descriptionIn, priorityVal, form, dueDate, dialog}
+    dialogT.appendChild(form);
+    return {button, titleInput, descriptionIn, priorityVal, form, dueDate, dialogT}
 }
 
 function displayTodo(todo, cont) {
@@ -108,8 +109,9 @@ function displayTodo(todo, cont) {
     const dueDateCont = document.createElement("div");
     dueDateCont.className = "due-date";
     const dueDate = document.createElement("div");
+    console.log(todo.dueDate)
     todo.formatDueDate();
-    dueDate.textContent = `Due Date: ${todo.dueDate}`;
+    dueDate.textContent = `Due: ${todo.dueDate}`;
     dueDateCont.appendChild(dueDate);
 
     const dueDateEdit = editDueDate(todo, dueDate);
@@ -201,9 +203,13 @@ function displayTodo(todo, cont) {
 }
 
 function renderPage() {
+    const todoList = Page.retrieveLocalStorage();
+    const project = document.createElement("h2")
+    project.textContent = "Projects";
     Page.todoCont.replaceChildren();
     Page.todoInfo.replaceChildren();
-    Page.todoList.array.forEach(todo => {
+    Page.todoCont.appendChild(project);
+    todoList.array.forEach(todo => {
         displayProject(todo, Page.todoCont);
     })
 }
@@ -212,8 +218,10 @@ function displayCheckL(array) {
     const list = document.createElement('ol');
     array.forEach(item => {
         const task = document.createElement("li");
+        // task.className = "checklist";
 
         const checkboxCont = document.createElement("div");
+        checkboxCont.className = "checklist"
         const label = document.createElement("label");
         label.setAttribute("for", "task")
         const taskCont = document.createElement("div");
@@ -262,16 +270,16 @@ function deleteTask(task) {
 }
 
 function createTask() {
+    Page.taskDialog.replaceChildren();
     Page.taskDialog.setAttribute("closedby", "any");
     const form = document.createElement("form");
     const label  = document.createElement("label");
     label.setAttribute("for", "task");
-    label.textContent = "Add task to checklist";
+    label.textContent = "Add task to checklist:";
     form.appendChild(label);
 
-    const taskInput = document.createElement("input");
+    const taskInput = document.createElement("textarea");
     taskInput.setAttribute("name", "task");
-    taskInput.setAttribute("type", "textarea");
     taskInput.setAttribute("required", "");
     form.appendChild(taskInput);
 

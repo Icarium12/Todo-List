@@ -139,7 +139,7 @@ function editDueDate(todo, element) {
 
     const date = document.createElement("label");
     date.setAttribute("for", "duedate");
-    date.textContent = "Edit Due Date";
+    date.textContent = "Edit Due Date:";
     form.appendChild(date)
 
     const newDate = document.createElement("input");

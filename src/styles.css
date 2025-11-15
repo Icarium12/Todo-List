@@ -13,16 +13,31 @@ body {
 }
 
 .add-project {
-    width: 5rem;
+    width: fit-content;
+    background-color: green;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    font-size: medium;
+    font-weight: 900;
+}
+
+.add-project:hover {
+    background-color: darkgreen;
 }
 
 .project-display {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: fit-content;
+    width: 15rem;
     gap: 2rem;
+    border-radius: 5px;
 }
+
+/* .project-display:hover {
+    background-color: rgb(236, 231, 231);
+} */
 
 .title-edit, .info-edit, .task-edit {
     height: 2rem;
@@ -31,9 +46,14 @@ body {
     border: none;
 }
 
+.title-edit:hover, .info-edit:hover, .task-edit:hover {
+    background-color: grey;
+}
+
 .main-display {
+    align-items: start;
     display: grid;
-    grid-template-columns: 30rem 1fr;
+    grid-template-columns: 30vw 1fr;
     place-items: center;
 }
 .due-date {
@@ -97,10 +117,15 @@ body {
 
 .task-cont {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
     gap: 5rem;
+}
+
+.checklist > input {
+    width: fit-content;
 }
 
 .button-cont {
@@ -119,4 +144,36 @@ body {
 
 .remove:hover {
     background-color: darkred;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 17rem;
+    border-radius: 15px;
+    background-color: rgb(238, 238, 238);
+    border: none;
+}
+
+form > button {
+    background-color: blue;
+    width: fit-content;
+    font-weight: 900;
+    color: white;
+    margin-top: 1rem;
+    border: none;
+    font-size: medium;
+    border-radius: 15px;
+}
+
+textarea {
+    background-color: rgb(238, 238, 238);
+    border: none;
+}
+
+.info-edit {
+    margin-left: 1rem;
 }

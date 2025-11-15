@@ -3,8 +3,18 @@ import { List } from "./list.js";
 import { displayProject, createProject, renderPage, createTask } from "./dom.js";
 import { Task } from "./task.js";
 import "./styles.css";
+import { fromUnixTime } from "date-fns";
 
 const Page = (function() {
+    const todoList = new List();
+
+    function storeUserInput(title, description, priority, dueDate) {
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.dueDate = dueDate
+    }
+
     const body = document.body;
 
     const title = document.createElement("h1");
@@ -17,6 +27,7 @@ const Page = (function() {
 
 
     const todoCont = document.createElement('div');
+    // retrieveLocalStorage();
     const todoInfo = document.createElement("div");
 
 
@@ -35,58 +46,90 @@ const Page = (function() {
     buttondiv.appendChild(button);
     body.appendChild(dialog);
     button.addEventListener('click', () => {
-        dialog.showModal();
-        const addProj = createProject(body, dialog);
+        const addProj = createProject();
+        body.appendChild(addProj.dialogT);
+        addProj.dialogT.showModal();
         addProj.button.addEventListener('click', (e) => {
             if (addProj.form.checkValidity()) {
                 e.preventDefault();
-                const todo = new Todos (
+                const todo = new storeUserInput (
                 addProj.titleInput.value,
                 addProj.descriptionIn.value,
                 addProj.priorityVal.value,
                 addProj.dueDate.value
                 )
                 todoList.addToList(todo);
+                saveToLocalStorage(todoList.array);
                 todoCont.replaceChildren();
-                todoList.array.forEach(todo => {
-                    renderPage();
-                });
-                dialog.replaceChildren();
-                dialog.close(); 
+                renderPage();
+                addProj.dialogT.close(); 
             }
         })
     })
     body.appendChild(buttondiv);
 
-    body.appendChild(display)
+    body.appendChild(display);
+
+    function projectCreate(array) {
+        const projectList = new List()
+        array.forEach(item => {
+            const todoProject = new Todos (
+                item.title,
+                item.description,
+                item.priority,
+                item.dueDate
+            );
+            projectList.addToList(todoProject);
+        });
+        return projectList
+    }
 
     
 
-    
+    function saveToLocalStorage(array) {
+        const savedTodoList = JSON.stringify(array);
+        localStorage.setItem("savedTodo", savedTodoList);
+    }
+
+    function retrieveLocalStorage() {
+        const storedArray = localStorage.getItem("savedTodo");
+        const parsedArray = JSON.parse(storedArray);
+        if (parsedArray.length > 0) {
+            const projectList = projectCreate(parsedArray);
+            projectList.array.forEach(todo => {
+                displayProject(todo, todoCont);
+            });
+            return(projectList);
+        }
+    }
 
 
-    const todoList = new List();
-    const todo1 = new Todos("Clean house", "Do the weekend chores", "low", "tomorrow");
-    const todo2 = new Todos("Study for test", "Study for the upcoming physics test", "High", "next week");
-    const todo3 = new Todos("Fix code", "Fix issue in game code", "medium", "placeholder");
-    const task = new Task("Select topics to study");
-    const task2 = new Task("Study each topic");
-    todo2.addTask(task);
-    todo2.addTask(task2);
+    // const savedTodoList = JSON.stringify(todoList.array);
+    // localStorage.setItem("savedTodo", savedTodoList);
+    // const todo1 = new Todos("Clean house", "Do the weekend chores", "low", "tomorrow");
+    // const todo2 = new Todos("Study for test", "Study for the upcoming physics test", "High", "next week");
+    // const todo3 = new Todos("Fix code", "Fix issue in game code", "medium", "placeholder");
+    // const task = new Task("Select topics to study");
+    // const task2 = new Task("Study each topic");
+    // todo2.addTask(task);
+    // todo2.addTask(task2);
 
-    todoList.addToList(todo1);
-    todoList.addToList(todo2);
-    todoList.addToList(todo3);
-    todoList.array.forEach(todo => {
-        displayProject(todo, todoCont);
-    });
-    console.log(todo1.creationDate);
-    display.appendChild(todoCont);
+    // todoList.addToList(todo1);
+    // todoList.addToList(todo2);
+    // todoList.addToList(todo3);
+    // saveToLocalStorage(todoList.array);
+    // todoList.array.forEach(todo => {
+    //     displayProject(todo, todoCont);
+    // });
+    // console.log(todo1.creationDate);
+    // display.appendChild(todoCont);
 
 //    todo1.changePriority();
 //     console.log(todo1.priority);
+    retrieveLocalStorage();
+    display.appendChild(todoCont);
 
-    return {todoInfo, todoList, todoCont, taskDialog, dialog, button, display};
+    return {todoInfo, todoList, todoCont, taskDialog, dialog, button, display, retrieveLocalStorage};
 })();
 
 export {Page}
