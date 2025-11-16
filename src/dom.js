@@ -237,6 +237,7 @@ function renderPage() {
     // console.log(todoList.array);
     todoList.array.forEach(todo => {
         displayProject(todo, Page.todoCont);
+        displayTodo(todo, Page.todoInfo);
     })
 }
 

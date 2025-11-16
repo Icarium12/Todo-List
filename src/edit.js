@@ -21,6 +21,7 @@ function editDescription(todo, element) {
         if(form.checkValidity()) {
             dialog.showModal();
             todo.changeDescription(newEdit.value);
+            Page.editStoredUser(todo);
             element.textContent = todo.description;
             dialog.close();
         }
@@ -53,8 +54,6 @@ function editTitle(todo, element) {
             dialog.showModal();
             todo.changeTitle(newEdit.value);
             Page.editStoredUser(todo);
-            // console.log(Page.todoList.array);
-            // Page.saveToLocalStorage(Page.todoList.array);
             element.textContent = todo.title;
             dialog.close();
         }
@@ -165,6 +164,7 @@ function editDueDate(todo, element) {
         if(form.checkValidity()) {
             dialog.showModal();
             todo.changeDueDate(newDate.value);
+            Page.editStoredUser(todo);
             todo.formatDueDate();
             element.textContent = `Due Date: ${todo.dueDate}`;
             dialog.close();

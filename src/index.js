@@ -132,7 +132,7 @@ const Page = (function() {
                 // item.id = todo.id;
                 console.log(storedtodoList.array);
                 saveToLocalStorage(storedtodoList.array);
-                // renderPage();
+                renderPage();
             }
         })
     }
