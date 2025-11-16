@@ -174,7 +174,9 @@ function displayTodo(todo, cont) {
     })
     cont.appendChild(taskButton);
 
-    const checklist = displayCheckL(todo.checkList);
+
+    const array = retrieveCheckList(todo);
+    const checklist = displayCheckL(array, todo);
     cont.appendChild(checklist);
 
     const finishCont = document.createElement("div");
@@ -196,7 +198,14 @@ function displayTodo(todo, cont) {
     todoStatus.className = "todo-status";
     todoStatus.addEventListener("click", () => {
         todo.setComplete();
-        todoStatus.textContent = todo.completeStatus
+        // if (todo.completeStatus === "Set Complete") {
+        //     todo.completeStatus = "Completed";
+        // }
+        // else {
+        //     todo.completeStatus = "Set Complete";
+        // }
+        todoStatus.textContent = todo.completeStatus;
+        Page.editStoredUser(todo);
     })
     finishCont.appendChild(todoStatus);
     cont.appendChild(finishCont);
@@ -204,8 +213,21 @@ function displayTodo(todo, cont) {
     Page.display.appendChild(cont);
 }
 
+
+function retrieveCheckList(todo) {
+    const key = localStorage.getItem(todo.id);
+    if  (key !== null) {
+        const  array = JSON.parse(key);
+        return array;
+    }
+    else {
+        return todo.checkList;
+    }
+}
+
 function renderPage() {
     const todoList = Page.retrieveLocalStorage();
+    console.log(todoList);
     // Page.retrieveLocalStorage();
     const project = document.createElement("h2")
     project.textContent = "Projects";
@@ -218,7 +240,7 @@ function renderPage() {
     })
 }
 
-function displayCheckL(array) {
+function displayCheckL(array, todo) {
     const list = document.createElement('ol');
     array.forEach(item => {
         const task = document.createElement("li");
@@ -252,7 +274,7 @@ function displayCheckL(array) {
         delTask.textContent = "Remove";
         delTask.className = "remove";
         delTask.addEventListener("click", () => {
-            deleteTask(item);
+            deleteTask(item, todo);
             task.style.color = "grey";
         })
         buttonContainer.appendChild(delTask);
@@ -267,11 +289,19 @@ function displayCheckL(array) {
     return list;
 }
 
-function deleteTask(task) {
-    Page.todoList.array.forEach(item => {
-        item.removeTask(task);
-        localStorage.setItem(item.id, JSON.stringify(Page.todoList.checkList));
+function deleteTask(task, todo) {
+    todo.checkList.forEach(item => {
+        if (item.id === task.id) {
+            const index = todo.checkList.indexOf(item);
+            todo.checkList.splice(index, 1);
+            console.log("ran");
+        }
     });
+    console.log(todo.checkList);
+    localStorage.setItem(todo.id, JSON.stringify(todo.checkList));
+    let test = localStorage.getItem(todo.id);
+    console.log(test);
+    console.log(todo.id);
     
 }
 
@@ -299,10 +329,11 @@ function createTask() {
 }
 
 function addTask(form, description, button, todo) {
+    console.log(todo.id);
     button.addEventListener("click", (e) => {
         if (form.checkValidity()) {
             e.preventDefault();
-            const task = new Task(description.value, todo.id);
+            const task = new Task(description.value);
             todo.addTask(task);
             localStorage.setItem(todo.id, JSON.stringify(todo.checkList));
             displayTodo(todo, Page.todoInfo);

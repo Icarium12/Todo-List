@@ -16,6 +16,7 @@ const Page = (function() {
         this.priority = priority;
         this.dueDate = dueDate
         this.id = crypto.randomUUID();
+        this.completeStatus = "Set Complete";
     }
 
     function storedTask(description) {
@@ -37,7 +38,6 @@ const Page = (function() {
 
 
     const todoCont = document.createElement('div');
-    // retrieveLocalStorage();
     const todoInfo = document.createElement("div");
 
 
@@ -88,7 +88,8 @@ const Page = (function() {
                 item.description,
                 item.priority,
                 item.dueDate,
-                item.id
+                item.id,
+                item.completeStatus
             );
             projectList.addToList(todoProject);
         });
@@ -127,6 +128,7 @@ const Page = (function() {
                 item.description = todo.description;
                 item.priority = todo.priority;
                 item.dueDate = todo.dueDate;
+                item.completeStatus = todo.completeStatus
                 // item.id = todo.id;
                 console.log(storedtodoList.array);
                 saveToLocalStorage(storedtodoList.array);

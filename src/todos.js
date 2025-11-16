@@ -3,7 +3,7 @@ import { format, getDate } from "date-fns";
 format(new Date(), "MM/dd/yyyy");
 
 class Todos {
-    constructor(title, description, priority, dueDate, id) {
+    constructor(title, description, priority, dueDate, id, completeStatus) {
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -11,7 +11,7 @@ class Todos {
         this.id = id;
         this.checkList = [];
         this.creationDate = new Date();
-        this.completeStatus = "Set Complete";
+        this.completeStatus = completeStatus
     }
 
     changePriority(value) {
@@ -22,15 +22,6 @@ class Todos {
         this.checkList.push(task);
     }
 
-    removeTask(task) {
-        this.checkList.forEach(item => {
-            if (item.id === task.id) {
-                const index = this.checkList.indexOf(item);
-                this.checkList.splice(index, 1);
-                console.log("ran");
-            }
-        })
-    }
     setComplete() {
         if (this.completeStatus === "Set Complete") {
             this.completeStatus = "Completed";
@@ -61,3 +52,9 @@ class Todos {
         this.dueDate = value
     }
 }
+
+
+
+
+
+export { Todos }
