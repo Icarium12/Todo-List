@@ -293,14 +293,14 @@ function loadCheckbox(element, task) {
 }
 
 function deleteTask(task, todo) {
-    todo.checkList.forEach(item => {
+    const checkList = retrieveCheckList(todo);
+    checkList.forEach(item => {
         if (item.id === task.id) {
-            const index = todo.checkList.indexOf(item);
-            todo.checkList.splice(index, 1);
+            const index = checkList.indexOf(item);
+            checkList.splice(index, 1);
         }
     });
-    localStorage.setItem(todo.id, JSON.stringify(todo.checkList));
-    let test = localStorage.getItem(todo.id);
+    localStorage.setItem(todo.id, JSON.stringify(checkList));
     
 }
 
@@ -334,7 +334,6 @@ function addTask(form, description, button, todo) {
             const task = new Task(description.value);
             const checkList = retrieveCheckList(todo);
             checkList.push(task);
-            todo.addTask(task);
             localStorage.setItem(todo.id, JSON.stringify(checkList));
             displayTodo(todo, Page.todoInfo);
             Page.taskDialog.replaceChildren();
