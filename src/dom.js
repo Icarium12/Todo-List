@@ -270,7 +270,9 @@ function displayCheckL(array) {
 function deleteTask(task) {
     Page.todoList.array.forEach(item => {
         item.removeTask(task);
+        localStorage.setItem(item.id, JSON.stringify(Page.todoList.checkList));
     });
+    
 }
 
 function createTask() {
@@ -300,8 +302,9 @@ function addTask(form, description, button, todo) {
     button.addEventListener("click", (e) => {
         if (form.checkValidity()) {
             e.preventDefault();
-            const task = new Task(description.value);
+            const task = new Task(description.value, todo.id);
             todo.addTask(task);
+            localStorage.setItem(todo.id, JSON.stringify(todo.checkList));
             displayTodo(todo, Page.todoInfo);
             Page.taskDialog.replaceChildren();
             Page.taskDialog.close();

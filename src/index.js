@@ -18,7 +18,12 @@ const Page = (function() {
         this.id = crypto.randomUUID();
     }
 
-    
+    function storedTask(description) {
+    this.description = description;
+    this.id = crypto.randomUUID();
+    }
+
+
 
     const body = document.body;
 
@@ -156,7 +161,8 @@ const Page = (function() {
     retrieveLocalStorage();
     display.appendChild(todoCont);
 
-    return {todoInfo, todoList, todoCont, taskDialog, dialog, button, display, retrieveLocalStorage, saveToLocalStorage, editStoredUser};
+    return {todoInfo, todoList, todoCont, taskDialog, dialog, 
+        button, display, storedTask, retrieveLocalStorage, saveToLocalStorage, editStoredUser};
 })();
 
 export {Page}

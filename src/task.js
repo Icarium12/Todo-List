@@ -1,7 +1,7 @@
 class Task {
-    constructor(description) {
+    constructor(description, id) {
         this.description = description;
-        this.id = crypto.randomUUID();
+        this.id = id;
     }
 
     changeTask(value) {
