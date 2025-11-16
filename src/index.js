@@ -8,7 +8,6 @@ import { fromUnixTime } from "date-fns";
 
 
 const Page = (function() {
-    // const todoList = retrieveLocalStorage();
 
     function storeUserInput(title, description, priority, dueDate) {
         this.title = title;
@@ -17,11 +16,6 @@ const Page = (function() {
         this.dueDate = dueDate
         this.id = crypto.randomUUID();
         this.completeStatus = "Set Complete";
-    }
-
-    function storedTask(description) {
-    this.description = description;
-    this.id = crypto.randomUUID();
     }
 
 
@@ -130,7 +124,6 @@ const Page = (function() {
     }
 
     function editStoredUser(todo) {
-        console.log(todo.id);
         const storedtodoList = retrieveLocalStorage();
         storedtodoList.array.forEach(item => {
             if(todo.id === item.id) {
@@ -138,9 +131,7 @@ const Page = (function() {
                 item.description = todo.description;
                 item.priority = todo.priority;
                 item.dueDate = todo.dueDate;
-                item.completeStatus = todo.completeStatus
-                // item.id = todo.id;
-                console.log(storedtodoList.array);
+                item.completeStatus = todo.completeStatus;
                 saveToLocalStorage(storedtodoList.array);
                 renderPage();
                 displayTodo(todo, todoInfo);
@@ -148,34 +139,11 @@ const Page = (function() {
         })
     }
 
-
-    // const savedTodoList = JSON.stringify(todoList.array);
-    // localStorage.setItem("savedTodo", savedTodoList);
-    // const todo1 = new Todos("Clean house", "Do the weekend chores", "low", "tomorrow");
-    // const todo2 = new Todos("Study for test", "Study for the upcoming physics test", "High", "next week");
-    // const todo3 = new Todos("Fix code", "Fix issue in game code", "medium", "placeholder");
-    // const task = new Task("Select topics to study");
-    // const task2 = new Task("Study each topic");
-    // todo2.addTask(task);
-    // todo2.addTask(task2);
-
-    // todoList.addToList(todo1);
-    // todoList.addToList(todo2);
-    // todoList.addToList(todo3);
-    // saveToLocalStorage(todoList.array);
-    // todoList.array.forEach(todo => {
-    //     displayProject(todo, todoCont);
-    // });
-    // console.log(todo1.creationDate);
-    // display.appendChild(todoCont);
-
-    //    todo1.changePriority();
-    //     console.log(todo1.priority);
     retrieveLocalStorage();
     display.appendChild(todoCont);
 
     return {todoInfo, todoList, todoCont, taskDialog, dialog, 
-        button, display, storedTask, retrieveLocalStorage, saveToLocalStorage, editStoredUser};
+        button, display, retrieveLocalStorage, saveToLocalStorage, editStoredUser};
 })();
 
 export {Page}

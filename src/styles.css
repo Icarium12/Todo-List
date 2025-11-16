@@ -35,9 +35,9 @@ body {
     border-radius: 5px;
 }
 
-/* .project-display:hover {
+.project-display:hover {
     background-color: rgb(236, 231, 231);
-} */
+}
 
 .title-edit, .info-edit, .task-edit {
     height: 2rem;

@@ -98,8 +98,6 @@ function editPriotity(todo, element) {
             dialog.showModal();
             todo.changePriority(priorityVal.value);
             Page.editStoredUser(todo);
-            console.log(Page.todoList.array);
-            // Page.saveToLocalStorage(Page.todoList.array);
             element.textContent = `Importance: ${todo.priority}`;
             dialog.close();
         }

@@ -8,6 +8,7 @@ function displayProject (todo, cont) {
     container.className = "project-display"
 
     const title = document.createElement("h3");
+    title.className = "project-tile";
     title.textContent = todo.title;
     title.addEventListener('click', () => {
         displayTodo(todo, Page.todoInfo);
@@ -26,7 +27,6 @@ function displayProject (todo, cont) {
     container.appendChild(edit);
 
     cont.appendChild(container);
-    console.log("I ran");
 }
 
 function createProject() {
@@ -109,7 +109,6 @@ function displayTodo(todo, cont) {
     const dueDateCont = document.createElement("div");
     dueDateCont.className = "due-date";
     const dueDate = document.createElement("div");
-    console.log(todo.dueDate)
     todo.formatDueDate();
     dueDate.textContent = `Due: ${todo.dueDate}`;
     dueDateCont.appendChild(dueDate);
@@ -186,10 +185,8 @@ function displayTodo(todo, cont) {
     button.className = "delete-todo";
     button.addEventListener("click", () => {
         Page.todoList.removeFromList(todo);
-        console.log(Page.todoList.array);
         Page.saveToLocalStorage(Page.todoList.array);
         renderPage();
-        console.log(Page.todoList);
     })
     finishCont.appendChild(button);
 
@@ -300,14 +297,10 @@ function deleteTask(task, todo) {
         if (item.id === task.id) {
             const index = todo.checkList.indexOf(item);
             todo.checkList.splice(index, 1);
-            console.log("ran");
         }
     });
-    console.log(todo.checkList);
     localStorage.setItem(todo.id, JSON.stringify(todo.checkList));
     let test = localStorage.getItem(todo.id);
-    console.log(test);
-    console.log(todo.id);
     
 }
 
