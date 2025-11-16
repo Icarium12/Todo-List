@@ -184,6 +184,8 @@ function displayTodo(todo, cont) {
     button.className = "delete-todo";
     button.addEventListener("click", () => {
         Page.todoList.removeFromList(todo);
+        console.log(Page.todoList.array);
+        Page.saveToLocalStorage(Page.todoList.array);
         renderPage();
         console.log(Page.todoList);
     })
@@ -204,11 +206,13 @@ function displayTodo(todo, cont) {
 
 function renderPage() {
     const todoList = Page.retrieveLocalStorage();
+    // Page.retrieveLocalStorage();
     const project = document.createElement("h2")
     project.textContent = "Projects";
     Page.todoCont.replaceChildren();
     Page.todoInfo.replaceChildren();
     Page.todoCont.appendChild(project);
+    // console.log(todoList.array);
     todoList.array.forEach(todo => {
         displayProject(todo, Page.todoCont);
     })

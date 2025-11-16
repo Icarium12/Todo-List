@@ -13,6 +13,7 @@ const Page = (function() {
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate
+        this.id = crypto.randomUUID();
     }
 
     const body = document.body;
@@ -77,7 +78,8 @@ const Page = (function() {
                 item.title,
                 item.description,
                 item.priority,
-                item.dueDate
+                item.dueDate,
+                item.id
             );
             projectList.addToList(todoProject);
         });
@@ -94,12 +96,16 @@ const Page = (function() {
     function retrieveLocalStorage() {
         const storedArray = localStorage.getItem("savedTodo");
         const parsedArray = JSON.parse(storedArray);
+        const projectList = projectCreate(parsedArray);
         if (parsedArray.length > 0) {
-            const projectList = projectCreate(parsedArray);
+            // const projectList = projectCreate(parsedArray);
             projectList.array.forEach(todo => {
                 displayProject(todo, todoCont);
             });
-            return(projectList);
+            return projectList;
+        }
+        else {
+            return projectList
         }
     }
 
@@ -129,7 +135,7 @@ const Page = (function() {
     retrieveLocalStorage();
     display.appendChild(todoCont);
 
-    return {todoInfo, todoList, todoCont, taskDialog, dialog, button, display, retrieveLocalStorage};
+    return {todoInfo, todoList, todoCont, taskDialog, dialog, button, display, retrieveLocalStorage, saveToLocalStorage};
 })();
 
 export {Page}
