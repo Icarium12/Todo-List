@@ -237,7 +237,6 @@ function renderPage() {
     // console.log(todoList.array);
     todoList.array.forEach(todo => {
         displayProject(todo, Page.todoCont);
-        displayTodo(todo, Page.todoInfo);
     })
 }
 
@@ -344,4 +343,4 @@ function addTask(form, description, button, todo) {
     })
 }
 
-export { displayProject, createProject, renderPage, createTask }
+export { displayProject, createProject, renderPage, createTask, displayTodo }

@@ -1,6 +1,6 @@
 import { Todos } from "./todos.js";
 import { List } from "./list.js";
-import { displayProject, createProject, renderPage, createTask } from "./dom.js";
+import { displayProject, createProject, renderPage, displayTodo } from "./dom.js";
 import { Task } from "./task.js";
 import "./styles.css";
 import { fromUnixTime } from "date-fns";
@@ -8,7 +8,7 @@ import { fromUnixTime } from "date-fns";
 
 
 const Page = (function() {
-    const todoList = new List();
+    // const todoList = retrieveLocalStorage();
 
     function storeUserInput(title, description, priority, dueDate) {
         this.title = title;
@@ -47,6 +47,7 @@ const Page = (function() {
     todoCont.appendChild(project);
 
     const taskDialog = document.createElement('dialog');
+    const todoList = retrieveLocalStorage();
 
     const buttondiv = document.createElement("div");
     buttondiv.className = "add-proj-container";
@@ -105,18 +106,27 @@ const Page = (function() {
 
     function retrieveLocalStorage() {
         const storedArray = localStorage.getItem("savedTodo");
-        const parsedArray = JSON.parse(storedArray);
-        const projectList = projectCreate(parsedArray);
-        if (parsedArray.length > 0) {
-            // const projectList = projectCreate(parsedArray);
-            projectList.array.forEach(todo => {
-                displayProject(todo, todoCont);
-            });
-            return projectList;
+        if (storedArray !== null) {
+            const parsedArray = JSON.parse(storedArray);
+            const projectList = projectCreate(parsedArray);
+            if (parsedArray.length > 0) {
+                todoCont.replaceChildren();
+                const project = document.createElement("h2")
+                project.textContent = "Projects";
+                todoCont.appendChild(project);
+                projectList.array.forEach(todo => {
+                    displayProject(todo, todoCont);
+                });
+                return projectList;
+            }
+            else {
+                return projectList;
+            }
         }
         else {
-            return projectList
+            return new List();
         }
+        
     }
 
     function editStoredUser(todo) {
@@ -133,6 +143,7 @@ const Page = (function() {
                 console.log(storedtodoList.array);
                 saveToLocalStorage(storedtodoList.array);
                 renderPage();
+                displayTodo(todo, todoInfo);
             }
         })
     }
@@ -158,8 +169,8 @@ const Page = (function() {
     // console.log(todo1.creationDate);
     // display.appendChild(todoCont);
 
-//    todo1.changePriority();
-//     console.log(todo1.priority);
+    //    todo1.changePriority();
+    //     console.log(todo1.priority);
     retrieveLocalStorage();
     display.appendChild(todoCont);
 
