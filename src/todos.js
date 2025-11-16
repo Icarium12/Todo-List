@@ -3,12 +3,12 @@ import { format, getDate } from "date-fns";
 format(new Date(), "MM/dd/yyyy");
 
 class Todos {
-    constructor(title, description, priority, dueDate) {
+    constructor(title, description, priority, dueDate, id) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
-        this.id = crypto.randomUUID();
+        this.id = id;
         this.checkList = [];
         this.creationDate = new Date();
         this.completeStatus = "Set Complete";

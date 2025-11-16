@@ -5,6 +5,8 @@ import { Task } from "./task.js";
 import "./styles.css";
 import { fromUnixTime } from "date-fns";
 
+
+
 const Page = (function() {
     const todoList = new List();
 
@@ -15,6 +17,8 @@ const Page = (function() {
         this.dueDate = dueDate
         this.id = crypto.randomUUID();
     }
+
+    
 
     const body = document.body;
 
@@ -109,6 +113,23 @@ const Page = (function() {
         }
     }
 
+    function editStoredUser(todo) {
+        console.log(todo.id);
+        const storedtodoList = retrieveLocalStorage();
+        storedtodoList.array.forEach(item => {
+            if(todo.id === item.id) {
+                item.title = todo.title;
+                item.description = todo.description;
+                item.priority = todo.priority;
+                item.dueDate = todo.dueDate;
+                // item.id = todo.id;
+                console.log(storedtodoList.array);
+                saveToLocalStorage(storedtodoList.array);
+                // renderPage();
+            }
+        })
+    }
+
 
     // const savedTodoList = JSON.stringify(todoList.array);
     // localStorage.setItem("savedTodo", savedTodoList);
@@ -135,7 +156,7 @@ const Page = (function() {
     retrieveLocalStorage();
     display.appendChild(todoCont);
 
-    return {todoInfo, todoList, todoCont, taskDialog, dialog, button, display, retrieveLocalStorage, saveToLocalStorage};
+    return {todoInfo, todoList, todoCont, taskDialog, dialog, button, display, retrieveLocalStorage, saveToLocalStorage, editStoredUser};
 })();
 
 export {Page}

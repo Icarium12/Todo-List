@@ -1,3 +1,5 @@
+import {Page} from "./index"
+
 function editDescription(todo, element) {
     const dialog = document.createElement("dialog");
     dialog.setAttribute("closedby", "any");
@@ -18,7 +20,7 @@ function editDescription(todo, element) {
         e.preventDefault();
         if(form.checkValidity()) {
             dialog.showModal();
-            todo.changeDescription(newEdit.value);;
+            todo.changeDescription(newEdit.value);
             element.textContent = todo.description;
             dialog.close();
         }
@@ -50,6 +52,9 @@ function editTitle(todo, element) {
         if(form.checkValidity()) {
             dialog.showModal();
             todo.changeTitle(newEdit.value);
+            Page.editStoredUser(todo);
+            // console.log(Page.todoList.array);
+            // Page.saveToLocalStorage(Page.todoList.array);
             element.textContent = todo.title;
             dialog.close();
         }
@@ -93,6 +98,12 @@ function editPriotity(todo, element) {
         if(form.checkValidity()) {
             dialog.showModal();
             todo.changePriority(priorityVal.value);
+            Page.editStoredUser(todo);
+            // Page.saveToLocalStorage(Page.todoList.array);
+            // const projectList = Page.retrieveLocalStorage();
+            // Page.editStoredUser(todo);
+            console.log(Page.todoList.array);
+            // Page.saveToLocalStorage(Page.todoList.array);
             element.textContent = `Importance: ${todo.priority}`;
             dialog.close();
         }
