@@ -198,12 +198,6 @@ function displayTodo(todo, cont) {
     todoStatus.className = "todo-status";
     todoStatus.addEventListener("click", () => {
         todo.setComplete();
-        // if (todo.completeStatus === "Set Complete") {
-        //     todo.completeStatus = "Completed";
-        // }
-        // else {
-        //     todo.completeStatus = "Set Complete";
-        // }
         todoStatus.textContent = todo.completeStatus;
         Page.editStoredUser(todo);
     })
@@ -227,14 +221,11 @@ function retrieveCheckList(todo) {
 
 function renderPage() {
     const todoList = Page.retrieveLocalStorage();
-    console.log(todoList);
-    // Page.retrieveLocalStorage();
     const project = document.createElement("h2")
     project.textContent = "Projects";
     Page.todoCont.replaceChildren();
     Page.todoInfo.replaceChildren();
     Page.todoCont.appendChild(project);
-    // console.log(todoList.array);
     todoList.array.forEach(todo => {
         displayProject(todo, Page.todoCont);
     })
@@ -244,7 +235,6 @@ function displayCheckL(array, todo) {
     const list = document.createElement('ol');
     array.forEach(item => {
         const task = document.createElement("li");
-        // task.className = "checklist";
 
         const checkboxCont = document.createElement("div");
         checkboxCont.className = "checklist"
@@ -255,9 +245,13 @@ function displayCheckL(array, todo) {
         const input = document.createElement("input");
         input.setAttribute("type", "checkbox");
         input.setAttribute("id", "task");
+        input.addEventListener('change', () => {
+            saveCheckbox(input, item);
+        })
         label.textContent = item.description;
+        loadCheckbox(input, item);
 
-        const editTaskDialog = editTask(item, label);
+        const editTaskDialog = editTask(item, label, todo);
         document.body.appendChild(editTaskDialog);
 
         const buttonContainer = document.createElement("div");
@@ -287,6 +281,18 @@ function displayCheckL(array, todo) {
         list.appendChild(task);
     });
     return list;
+}
+
+function saveCheckbox(element, task) {
+    localStorage.setItem(task.id, element.checked.toString());
+}
+
+function loadCheckbox(element, task) {
+    const savedState = localStorage.getItem(task.id);
+
+    if (savedState !== null) {
+        element.checked = (savedState === 'true');
+    }
 }
 
 function deleteTask(task, todo) {
@@ -329,18 +335,21 @@ function createTask() {
 }
 
 function addTask(form, description, button, todo) {
-    console.log(todo.id);
     button.addEventListener("click", (e) => {
         if (form.checkValidity()) {
             e.preventDefault();
             const task = new Task(description.value);
+            const checkList = retrieveCheckList(todo);
+            checkList.push(task);
             todo.addTask(task);
-            localStorage.setItem(todo.id, JSON.stringify(todo.checkList));
+            localStorage.setItem(todo.id, JSON.stringify(checkList));
             displayTodo(todo, Page.todoInfo);
             Page.taskDialog.replaceChildren();
             Page.taskDialog.close();
         }
     })
 }
+
+
 
 export { displayProject, createProject, renderPage, createTask, displayTodo }

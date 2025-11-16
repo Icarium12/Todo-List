@@ -98,9 +98,6 @@ function editPriotity(todo, element) {
             dialog.showModal();
             todo.changePriority(priorityVal.value);
             Page.editStoredUser(todo);
-            // Page.saveToLocalStorage(Page.todoList.array);
-            // const projectList = Page.retrieveLocalStorage();
-            // Page.editStoredUser(todo);
             console.log(Page.todoList.array);
             // Page.saveToLocalStorage(Page.todoList.array);
             element.textContent = `Importance: ${todo.priority}`;
@@ -112,7 +109,7 @@ function editPriotity(todo, element) {
     return dialog
 }
 
-function editTask(task, element) {
+function editTask(task, element, todo) {
     const dialog = document.createElement("dialog");
     dialog.setAttribute("closedby", "any");
     const form = document.createElement("form")
@@ -132,7 +129,15 @@ function editTask(task, element) {
         e.preventDefault();
         if(form.checkValidity()) {
             dialog.showModal();
-            task.changeTask(newEdit.value);;
+            task.description = newEdit.value;
+            const checkList = localStorage.getItem(todo.id);
+            const parsedCheckList = JSON.parse(checkList)
+            parsedCheckList.forEach(item => {
+                if(item.id === task.id) {
+                    item.description = task.description
+                }
+            });
+            localStorage.setItem(todo.id, JSON.stringify(parsedCheckList));
             element.textContent = task.description;
             dialog.close();
         }
